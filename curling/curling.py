@@ -167,6 +167,11 @@ class StoneThrow:
         (-.1, .1),
         (-4, 4)
     ]).astype(float)
+    random_parameters: ClassVar[np.ndarray] = np.array([
+        (1.41, .05),
+        (0., .04),
+        (0., 1.),
+    ])
     color: StoneColor
     velocity: float
     angle: float
