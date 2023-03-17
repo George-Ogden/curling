@@ -29,3 +29,6 @@ MANIFEST
 
 # Editor settings
 .vscode/
+
+# Pytest Cache
+.pytest_cache/
