@@ -1,4 +1,4 @@
 from .constants import PhysicalConstants, SimulationConstants
-from .stone import Stone, StoneThrow
+from .curling import Curling, StoneThrow
 from .enums import StoneColor
-from .curling import Curling
+from .stone import Stone

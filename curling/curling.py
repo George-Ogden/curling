@@ -3,11 +3,12 @@ from __future__ import annotations
 import numpy as np
 import cv2
 
-from typing import List, Optional, Tuple
+from typing import ClassVar, List, Optional, Tuple
+from dataclasses import dataclass
 
-from .stone import Stone, StoneThrow
 from .constants import Accuracy, PhysicalConstants, SimulationConstants
 from .enums import Colors, DisplayTime, StoneColor, SimulationState
+from .stone import Stone
 
 class Curling:
     physical_constants: PhysicalConstants = PhysicalConstants()
@@ -158,3 +159,17 @@ class Canvas:
         cv2.imshow(self.WINDOW_NAME, self._canvas)
         linear_transform = self.DISPLAY_TIME.value
         cv2.waitKey(int(linear_transform(1000 * constants.dt)))
+
+@dataclass
+class StoneThrow:
+    bounds: ClassVar[np.ndarray] = np.array([
+        (1.3, 2.),
+        (-.1, .1),
+        (-4, 4)
+    ]).astype(float)
+    color: StoneColor
+    velocity: float
+    angle: float
+    spin: float
+    def __post_init__(self):
+        self.velocity **= 2

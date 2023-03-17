@@ -1,12 +1,9 @@
-from __future__ import annotations
-
 import numpy as np
 
-from typing import ClassVar, List, Tuple
-from dataclasses import dataclass
+from typing import List, Tuple
 
-from .enums import StoneColor, SimulationState
 from .constants import Accuracy, PhysicalConstants, SimulationConstants
+from .enums import StoneColor, SimulationState
 
 class Stone:
     mass: np.floating = np.array(19.) # stones between 17.24-19.96
@@ -86,7 +83,7 @@ class Stone:
         return SimulationState.UNFINISHED
 
     @staticmethod
-    def handle_collisions(stones: List[Stone], constants: SimulationConstants = SimulationConstants()):
+    def handle_collisions(stones: List["Stone"], constants: SimulationConstants = SimulationConstants()):
         impulses = np.zeros((len(stones), 2))
         torques = np.zeros((len(stones), ))
         # could be rewritten more efficiently if stones are sorted by y coordinate and then values are recalculated
@@ -160,17 +157,3 @@ class Stone:
             # reduce simulation time 
             # high accuracy only needed for the collisions themselves
             constants.accuracy = Accuracy.MID
-
-@dataclass
-class StoneThrow:
-    bounds: ClassVar[np.ndarray] = np.array([
-        (1.3, 2.),
-        (-.1, .1),
-        (-4, 4)
-    ]).astype(float)
-    color: StoneColor
-    velocity: float
-    angle: float
-    spin: float
-    def __post_init__(self):
-        self.velocity **= 2
