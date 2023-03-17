@@ -21,14 +21,14 @@ def test_colour_changes():
         StoneColor.RED,
         spin=0,
         angle=0,
-        velocity=1.41
+        sqrt_velocity=1.41
     ), constants=approx_constants)
     with pytest.raises(AssertionError) as e:
         curling.throw(StoneThrow(
             StoneColor.RED,
             spin=0,
             angle=0,
-            velocity=1.41
+            sqrt_velocity=1.41
         ), constants=approx_constants)
 
 def test_evaluate_with_single_stone():
@@ -36,7 +36,7 @@ def test_evaluate_with_single_stone():
     curling.throw(
         StoneThrow(
             StoneColor.RED,
-            velocity=1.41,
+            sqrt_velocity=1.41,
             angle=0,
             spin=0
         )
@@ -47,7 +47,7 @@ def test_evaluate_with_single_stone():
     curling.throw(
         StoneThrow(
             StoneColor.YELLOW,
-            velocity=1.41,
+            sqrt_velocity=1.41,
             angle=0,
             spin=0
         )
@@ -59,7 +59,7 @@ def test_evaluate_with_double_stone():
     curling.throw(
         StoneThrow(
             StoneColor.RED,
-            velocity=1.41,
+            sqrt_velocity=1.41,
             angle=0,
             spin=0
         )
@@ -68,7 +68,7 @@ def test_evaluate_with_double_stone():
     curling.throw(
         StoneThrow(
             StoneColor.YELLOW,
-            velocity=1.41,
+            sqrt_velocity=1.41,
             angle=0.05,
             spin=0
         )
@@ -77,7 +77,7 @@ def test_evaluate_with_double_stone():
     curling.throw(
         StoneThrow(
             StoneColor.RED,
-            velocity=1.41,
+            sqrt_velocity=1.41,
             angle=0.02,
             spin=0
         )
@@ -89,7 +89,7 @@ def test_evaluate_after_collision():
     curling.throw(
         StoneThrow(
             StoneColor.RED,
-            velocity=1.41,
+            sqrt_velocity=1.41,
             angle=0,
             spin=0
         )
@@ -98,7 +98,7 @@ def test_evaluate_after_collision():
     curling.throw(
         StoneThrow(
             StoneColor.YELLOW,
-            velocity=1.5,
+            sqrt_velocity=1.5,
             angle=0,
             spin=0
         )
@@ -107,7 +107,7 @@ def test_evaluate_after_collision():
     curling.throw(
         StoneThrow(
             StoneColor.RED,
-            velocity=2,
+            sqrt_velocity=2,
             angle=0.5,
             spin=0
         )
@@ -116,7 +116,7 @@ def test_evaluate_after_collision():
     curling.throw(
         StoneThrow(
             StoneColor.YELLOW,
-            velocity=1.41,
+            sqrt_velocity=1.41,
             angle=0,
             spin=0
         )
@@ -128,7 +128,7 @@ def test_evaluate_with_split_stones():
     curling.throw(
         StoneThrow(
             StoneColor.RED,
-            velocity=1.41,
+            sqrt_velocity=1.41,
             angle=0,
             spin=0
         )
@@ -137,7 +137,7 @@ def test_evaluate_with_split_stones():
     curling.throw(
         StoneThrow(
             StoneColor.YELLOW,
-            velocity=1.41,
+            sqrt_velocity=1.41,
             angle=0.02,
             spin=0
         )
@@ -146,7 +146,7 @@ def test_evaluate_with_split_stones():
     curling.throw(
         StoneThrow(
             StoneColor.RED,
-            velocity=1.41,
+            sqrt_velocity=1.41,
             angle=0.05,
             spin=0
         )

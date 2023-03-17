@@ -173,8 +173,8 @@ class StoneThrow:
         (0., 1.),
     ])
     color: StoneColor
-    velocity: float
+    sqrt_velocity: float
     angle: float
     spin: float
     def __post_init__(self):
-        self.velocity **= 2
+        self.velocity = self.sqrt_velocity ** 2

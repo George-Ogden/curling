@@ -16,7 +16,7 @@ def test_display():
     curling.throw(StoneThrow(
         StoneColor.YELLOW,
         angle=.01,
-        velocity=2,
+        sqrt_velocity=2,
         spin=0
     ), constants=approx_constants)
     curling.display()
@@ -31,7 +31,7 @@ def test_image():
     curling.throw(StoneThrow(
         StoneColor.YELLOW,
         angle=.01,
-        velocity=1.4,
+        sqrt_velocity=1.4,
         spin=0
     ), constants=approx_constants)
     image = curling.render().get_canvas()
