@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools", "wheel", "Cython"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "curling"
+version = "0.1.0"
+authors = [
+    {name = "George Ogden", email = "george@goprogram.ai"},
+]
+description = "Interface for curling physics simulation"
+dependencies = ["numpy", "opencv-python"]
+
+[tool.cython]
+language_level = 3
