@@ -20,6 +20,7 @@ class TraceableConstants(SimulationConstants):
 
 def get_short_curling(stone_on_button=False):
     short_curling = Curling(StoneColor.RED)
+    short_curling.back_line_position = 0.
     short_curling.starting_button_distance = short_curling.tee_line_position
     short_curling.pitch_length = short_curling.tee_line_position * 2
     short_curling.hog_line_position = short_curling.pitch_length
