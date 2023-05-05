@@ -218,3 +218,19 @@ def test_mixed_house_scoring():
     curling.stones.append(Stone(color=StoneColor.RED, position=(0, -curling.tee_line_position -curling.target_radii[-1])))
     curling.stones.append(Stone(color=StoneColor.RED, position=(0, -curling.hog_line_position)))
     assert curling.evaluate_position() == StoneColor.RED
+
+def test_bounds():
+    curling = Curling()
+    assert curling.out_of_bounds(Stone(color=StoneColor.RED, position=(0, .1)))
+    assert curling.out_of_bounds(Stone(color=StoneColor.RED, position=(0, 0.)))
+    assert curling.out_of_bounds(Stone(color=StoneColor.RED, position=(0, -curling.back_line_position / 2)))
+    assert curling.out_of_bounds(Stone(color=StoneColor.RED, position=(curling.pitch_width + .1, 0)))
+    assert curling.out_of_bounds(Stone(color=StoneColor.RED, position=(-curling.pitch_width - .1, 0)))
+    
+    assert not curling.out_of_bounds(Stone(color=StoneColor.RED, position=(0, -curling.pitch_length / 2)))
+    assert not curling.out_of_bounds(Stone(color=StoneColor.RED, position=(0, -curling.hog_line_position)))
+    assert not curling.out_of_bounds(Stone(color=StoneColor.RED, position=(0, -curling.tee_line_position)))
+    assert not curling.out_of_bounds(Stone(color=StoneColor.RED, position=(0, -curling.back_line_position)))
+
+    assert not curling.out_of_bounds(Stone(color=StoneColor.RED, position=(curling.pitch_width * .4, -curling.hog_line_position)))
+    assert not curling.out_of_bounds(Stone(color=StoneColor.RED, position=(-curling.pitch_width * .4, -curling.hog_line_position)))
