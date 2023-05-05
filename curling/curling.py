@@ -14,14 +14,15 @@ class Curling:
     physical_constants: PhysicalConstants = PhysicalConstants()
     pitch_length: np.floating = np.array(45.720)
     pitch_width: np.floating = np.array(4.750)
-    hog_line_position: np.floating = np.array(11.888) # distance from back line to hog line
-    tee_line_position: np.floating = np.array(5.487) # distance from back line to tee line
+    hog_line_position: np.floating = np.array(11.888) # distance from back board to hog line
+    tee_line_position: np.floating = np.array(5.487) # distance from back board to tee line
+    back_line_position: np.floating = np.array(3.658) # distance from back board to back line
     button_position = np.array((0., -tee_line_position))
     starting_button_distance: np.floating = pitch_length - tee_line_position - hog_line_position # distance to button from where stone is released
     target_radii: np.ndarray = np.array((0.152, 0.610, 1.219, 1.829)) # radii of rings in the circle
     house_radius: np.floating = np.array((1.996)) # distance from centre of stone to button
     vertical_lines: np.ndarray = np.array((-.457, 0, .457)) # positioning of vertical lines
-    horizontal_lines: np.ndarray = np.array((3.658, tee_line_position, hog_line_position, pitch_length / 2, 33.832, 40.233, 42.062)) # positioning of horizontal lines
+    horizontal_lines: np.ndarray = np.array((back_line_position, tee_line_position, hog_line_position, pitch_length / 2, 33.832, 40.233, 42.062)) # positioning of horizontal lines
     num_stones_per_end: int = 16
     def __init__(self, starting_color: Optional[StoneColor] = None):
         self.reset(starting_color)
@@ -59,7 +60,7 @@ class Curling:
         return canvas
 
     def out_of_bounds(self, stone: Stone) -> bool:
-        return np.abs(stone.position[0]) > self.pitch_width / 2 or stone.position[1] > 0
+        return np.abs(stone.position[0]) > self.pitch_width / 2 or stone.position[1] > -self.back_line_position + stone.outer_radius
 
     def button_distance(self, stone: Stone) -> float:
         return np.linalg.norm(stone.position - self.button_position)
