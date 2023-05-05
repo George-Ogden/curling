@@ -1,15 +1,16 @@
 import numpy as np
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List, Union
 
+from .utils import classproperty
 from .enums import Accuracy
 
 @dataclass
 class SimulationConstants:
-    time_intervals: Union[np.floating, np.ndarray] = np.array((.3, .1, .05))
-    num_points_on_circle: np.integer = np.array(20)
-    eps: np.floating = np.array(1e-6)
+    time_intervals: Union[np.floating, np.ndarray] = (.3, .1, .05)
+    num_points_on_circle: np.integer = field(default_factory=lambda: np.array(20))
+    eps: np.floating = field(default_factory=lambda: np.array(1e-6))
     accuracy: Accuracy = Accuracy.LOW
     def __post_init__(self):
         self.time_intervals = np.array(self.time_intervals)
@@ -29,10 +30,12 @@ class SimulationConstants:
 
 @dataclass
 class PhysicalConstants:
-    mu_0: np.floating = np.array(0.008) # coefficient of friction = m_0 / sqrt(|v|)
-    A: np.floating = np.array(10.) # ratio of differences between rear and front coefficients of friction
-    k: np.floating = np.array((A - 1) / (A + 1)) # linear factor for scaling coefficient of friction
-    g: np.floating = np.array(9.81) # acceleration of freefall
+    mu_0: float = 0.008 # coefficient of friction
+    A: float = 10. # ratio of differences between rear and front coefficients of friction
+    g: float = 9.81 # acceleration of freefall
+    @classproperty
+    def k(cls) -> np.floating:
+        return cls.A / (cls.A + 1) # linear factor for scaling coefficient of friction
 
     @classmethod
     def calculate_friction(cls, speed: Union[float, List[float]], position: Union[float, List[float]] = 0) -> float:
