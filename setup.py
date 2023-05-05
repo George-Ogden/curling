@@ -8,4 +8,11 @@ extensions = [
 setup(
     ext_modules=cythonize(extensions),
     zip_safe=False,
+    extras_require={
+        "test": [
+            "pytest>=6.2",
+            "pytest-timeout>=1.5",
+        ],
+    },
+
 )
