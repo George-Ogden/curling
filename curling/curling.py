@@ -169,7 +169,7 @@ class StoneThrow:
         (-4, 4)
     ]).astype(float)
     random_parameters: ClassVar[np.ndarray] = np.array([
-        (1.41, .05),
+        (1.41, .03),
         (0., .04),
         (0., 1.),
     ])
