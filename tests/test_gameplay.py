@@ -1,3 +1,5 @@
+import jax.numpy as jnp
+
 import pytest
 
 from curling import Curling, Stone, StoneColor, StoneThrow, SimulationConstants
@@ -158,25 +160,25 @@ def test_free_guard_zone():
     stone = Stone(color=StoneColor.RED, position=(0,0))
     assert not curling.in_fgz(stone)
 
-    stone.position = (0, -curling.tee_line_position + curling.target_radii[0])
+    stone.position = jnp.array((0, -curling.tee_line_position + curling.target_radii[0]))
     assert not curling.in_fgz(stone)
 
-    stone.position = (1, -curling.tee_line_position - curling.target_radii[0])
+    stone.position = jnp.array((1, -curling.tee_line_position - curling.target_radii[0]))
     assert not curling.in_fgz(stone)
 
-    stone.position = (0, -curling.tee_line_position - curling.target_radii[-1])
+    stone.position = jnp.array((0, -curling.tee_line_position - curling.target_radii[-1]))
     assert not curling.in_fgz(stone)
 
-    stone.position = (0, -curling.tee_line_position - curling.target_radii[-1] * 2)
+    stone.position = jnp.array((0, -curling.tee_line_position - curling.target_radii[-1] * 2))
     assert curling.in_fgz(stone)
 
-    stone.position = (-1, -curling.hog_line_position + curling.target_radii[0])
+    stone.position = jnp.array((-1, -curling.hog_line_position + curling.target_radii[0]))
     assert curling.in_fgz(stone)
 
-    stone.position = (0, -curling.hog_line_position - curling.target_radii[0])
+    stone.position = jnp.array((0, -curling.hog_line_position - curling.target_radii[0]))
     assert not curling.in_fgz(stone)
 
-    stone.position = (1, -curling.horizontal_lines[-2])
+    stone.position = jnp.array((1, -curling.horizontal_lines[-2]))
     assert not curling.in_fgz(stone)
 
 def test_in_house():
@@ -184,22 +186,22 @@ def test_in_house():
     stone = Stone(color=StoneColor.RED, position=(0,0))
     assert not curling.in_house(stone)
 
-    stone.position = (0, -curling.tee_line_position + curling.target_radii[0])
+    stone.position = jnp.array((0, -curling.tee_line_position + curling.target_radii[0]))
     assert curling.in_house(stone)
 
-    stone.position = (1, -curling.tee_line_position - curling.target_radii[0])
+    stone.position = jnp.array((1, -curling.tee_line_position - curling.target_radii[0]))
     assert curling.in_house(stone)
 
-    stone.position = (curling.target_radii[0], -curling.tee_line_position + curling.target_radii[-2])
+    stone.position = jnp.array((curling.target_radii[0], -curling.tee_line_position + curling.target_radii[-2]))
     assert curling.in_house(stone)
 
-    stone.position = (-1, -curling.tee_line_position - curling.target_radii[-1])
+    stone.position = jnp.array((-1, -curling.tee_line_position - curling.target_radii[-1]))
     assert not curling.in_house(stone)
 
-    stone.position = (-curling.target_radii[-1], -curling.tee_line_position)
+    stone.position = jnp.array((-curling.target_radii[-1], -curling.tee_line_position))
     assert curling.in_house(stone)
 
-    stone.position = (-curling.hog_line_position)
+    stone.position = jnp.array((-curling.hog_line_position))
     assert not curling.in_house(stone)
 
 def test_in_house_scoring():
