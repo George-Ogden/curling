@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import jax.numpy as jnp
 import numpy as np
+import jax
 import cv2
 
 from typing import ClassVar, List, Optional, Tuple
@@ -12,24 +14,28 @@ from .stone import Stone
 
 class Curling:
     physical_constants: PhysicalConstants = PhysicalConstants()
-    pitch_length: np.floating = np.array(45.720)
-    pitch_width: np.floating = np.array(4.750)
-    hog_line_position: np.floating = np.array(11.888) # distance from back board to hog line
-    tee_line_position: np.floating = np.array(5.487) # distance from back board to tee line
-    back_line_position: np.floating = np.array(3.658) # distance from back board to back line
-    button_position = np.array((0., -tee_line_position))
-    starting_button_distance: np.floating = pitch_length - tee_line_position - hog_line_position # distance to button from where stone is released
-    target_radii: np.ndarray = np.array((0.152, 0.610, 1.219, 1.829)) # radii of rings in the circle
-    house_radius: np.floating = np.array((1.996)) # distance from centre of stone to button
-    vertical_lines: np.ndarray = np.array((-.457, 0, .457)) # positioning of vertical lines
-    horizontal_lines: np.ndarray = np.array((back_line_position, tee_line_position, hog_line_position, pitch_length / 2, 33.832, 40.233, 42.062)) # positioning of horizontal lines
+    pitch_length: jnp.floating = jnp.array(45.720)
+    pitch_width: jnp.floating = jnp.array(4.750)
+    hog_line_position: jnp.floating = jnp.array(11.888) # distance from back board to hog line
+    tee_line_position: jnp.floating = jnp.array(5.487) # distance from back board to tee line
+    back_line_position: jnp.floating = jnp.array(3.658) # distance from back board to back line
+    button_position = jnp.array((0., -tee_line_position))
+    starting_button_distance: jnp.floating = pitch_length - tee_line_position - hog_line_position # distance to button from where stone is released
+    target_radii: jnp.ndarray = jnp.array((0.152, 0.610, 1.219, 1.829)) # radii of rings in the circle
+    house_radius: jnp.floating = jnp.array((1.996)) # distance from centre of stone to button
+    vertical_lines: jnp.ndarray = jnp.array((-.457, 0, .457)) # positioning of vertical lines
+    horizontal_lines: jnp.ndarray = jnp.array((back_line_position, tee_line_position, hog_line_position, pitch_length / 2, 33.832, 40.233, 42.062)) # positioning of horizontal lines
     num_stones_per_end: int = 16
+    random_seed: int = 0
     def __init__(self, starting_color: Optional[StoneColor] = None):
+        self.key = jax.random.PRNGKey(self.random_seed)
+        self.random_seed += 1
         self.reset(starting_color)
 
     def reset(self, starting_color: Optional[StoneColor] = None):
         self.stones: List[Stone] = []
-        self.next_stone_colour = starting_color or np.random.choice([StoneColor.RED, StoneColor.YELLOW])
+        self.key, key = jax.random.split(self.key)
+        self.next_stone_colour = starting_color or jax.random.choice(key, jnp.array([StoneColor.RED, StoneColor.YELLOW]))
 
     def step(self, simulation_constants: SimulationConstants = SimulationConstants()) -> SimulationState:
         finished = SimulationState.FINISHED
@@ -60,10 +66,10 @@ class Curling:
         return canvas
 
     def out_of_bounds(self, stone: Stone) -> bool:
-        return np.abs(stone.position[0]) > self.pitch_width / 2 or stone.position[1] > -self.back_line_position + stone.outer_radius
+        return jnp.abs(stone.position[0]) > self.pitch_width / 2 or stone.position[1] > -self.back_line_position + stone.outer_radius
 
     def button_distance(self, stone: Stone) -> float:
-        return np.linalg.norm(stone.position - self.button_position)
+        return jnp.linalg.norm(stone.position - self.button_position)
 
     def in_house(self, stone: Stone) -> bool:
         return self.button_distance(stone) < self.house_radius
@@ -104,7 +110,7 @@ class Curling:
         if len(self.stones) == 0:
             distance_ordering = []
         else:
-            distance_ordering = np.argsort(stone_distances)
+            distance_ordering = jnp.argsort(jnp.array(stone_distances))
         ordered_stones = [self.stones[index] for index in distance_ordering]
         score = 0
         for stone in ordered_stones:
@@ -150,25 +156,25 @@ class Canvas:
         stone_color = Colors.RED if stone.color == StoneColor.RED else Colors.YELLOW
         cv2.circle(self._canvas, center=self.adjust_coordinates(stone.position), radius=self.convert_radius(stone.outer_radius), color=stone_color.value, thickness=-1)
         cv2.circle(self._canvas, center=self.adjust_coordinates(stone.position), radius=self.convert_radius(stone.outer_radius), color=Colors.GRAY.value, thickness=1)
-        handle_offset = stone.outer_radius * (np.cos(stone.angular_position), np.sin(stone.angular_position))
+        handle_offset = stone.outer_radius * np.array((np.cos(stone.angular_position), np.sin(stone.angular_position)))
         cv2.line(self._canvas, pt1=self.adjust_coordinates(stone.position + handle_offset), pt2=self.adjust_coordinates(stone.position - handle_offset), color=Colors.GRAY.value, thickness=1)
 
     def get_canvas(self)-> np.ndarray:
         return self._canvas
 
     def display(self, constants: SimulationConstants = SimulationConstants()):
-        cv2.imshow(self.WINDOW_NAME, self._canvas)
+        cv2.imshow(self.WINDOW_NAME, self.get_canvas())
         linear_transform = self.DISPLAY_TIME.value
         cv2.waitKey(int(linear_transform(1000 * constants.dt)))
 
 @dataclass
 class StoneThrow:
-    bounds: ClassVar[np.ndarray] = np.array([
+    bounds: ClassVar[jnp.ndarray] = jnp.array([
         (1.3, 2.),
         (-.1, .1),
         (-4, 4)
     ]).astype(float)
-    random_parameters: ClassVar[np.ndarray] = np.array([
+    random_parameters: ClassVar[jnp.ndarray] = jnp.array([
         (1.41, .03),
         (0., .04),
         (0., 1.),
