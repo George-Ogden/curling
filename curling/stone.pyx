@@ -36,6 +36,15 @@ class Stone:
         self.angular_velocity = np.array(spin, dtype=float)
 
     def step(self, simulation_constants: SimulationConstants=SimulationConstants()) -> SimulationState:
+        """step a stone one timestep (simulation_constants.dt)
+
+        Args:
+            simulation_constants (SimulationConstants, optional): specify a set of constants to use for the simulation step. Defaults to SimulationConstants().
+
+        Returns:
+            SimulationState: whether the simulation is finished or not
+        """
+        # if the stone is not moving, the simulation is finished
         if np.linalg.norm(self.velocity) < simulation_constants.eps:
             self.angular_velocity = 0.
             return SimulationState.FINISHED
@@ -72,6 +81,7 @@ class Stone:
         return SimulationState.UNFINISHED
     
     def unstep(self, simulation_constants: SimulationConstants = SimulationConstants()) -> SimulationState:
+        """revert a step that has just been simulated"""
         dt = simulation_constants.dt
         # revert a step
         self.position -= self.velocity * dt
@@ -84,6 +94,12 @@ class Stone:
 
     @staticmethod
     def handle_collisions(stones: List["Stone"], constants: SimulationConstants = SimulationConstants()):
+        """apply physics to any stones that are colliding
+
+        Args:
+            stones (List[Stone]): list of stones that may be touching
+            constants (SimulationConstants, optional): specify a set of constants to use for the simulation step. Defaults to SimulationConstants().
+        """
         impulses = np.zeros((len(stones), 2))
         torques = np.zeros((len(stones), ))
         # could be rewritten more efficiently if stones are sorted by y coordinate and then values are recalculated
