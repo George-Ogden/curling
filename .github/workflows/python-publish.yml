@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-python@v4
       - name: Install dependencies
         run: |
-          pip install --upgrade pip setuptools twine
+          pip install --upgrade pip setuptools twine .
       - name: Build and publish
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
