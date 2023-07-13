@@ -40,7 +40,6 @@ site/
 favicon.*
 # copied dynamically
 docs/index.md
-docs/images/
 
 # Editor settings
 .vscode/
