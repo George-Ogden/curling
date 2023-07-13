@@ -9,6 +9,9 @@ build:
   os: ubuntu-22.04
   tools:
     python: "3.11"
+  commands:
+    - cp README.md docs/index.md
+    - cp images/ docs/ -r
 
 mkdocs:
   configuration: mkdocs.yml
