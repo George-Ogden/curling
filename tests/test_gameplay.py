@@ -8,14 +8,14 @@ accurate_constants = SimulationConstants(time_intervals=.02)
 def test_red_initialisation():
     curling = Curling(StoneColor.RED)
     assert len(curling.stones) == 0
-    assert curling.next_stone_colour == StoneColor.RED
+    assert curling.next_stone_color == StoneColor.RED
 
 def test_yellow_initialisation():
     curling = Curling(StoneColor.YELLOW)
     assert len(curling.stones) == 0
-    assert curling.next_stone_colour == StoneColor.YELLOW
+    assert curling.next_stone_color == StoneColor.YELLOW
 
-def test_colour_changes():
+def test_color_changes():
     curling = Curling(StoneColor.RED)
     curling.throw(StoneThrow(
         StoneColor.RED,

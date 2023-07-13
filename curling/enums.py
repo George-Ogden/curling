@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from enum import Enum, IntEnum
 
 class StoneColor(IntEnum):
-    """stone colour Enum with values -1 and 1"""
+    """stone color Enum with values -1 and 1"""
     RED: int = -1
     YELLOW: int = 1
     def __invert__(self) -> StoneColor:

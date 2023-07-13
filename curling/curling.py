@@ -28,7 +28,7 @@ class Curling:
         """initialise curling game
 
         Args:
-            starting_color (Optional[StoneColor], optional): colour of starting player (or None for random). Defaults to None.
+            starting_color (Optional[StoneColor], optional): color of starting player (or None for random). Defaults to None.
         """
         self.reset(starting_color)
 
@@ -36,10 +36,10 @@ class Curling:
         """reset curling game
 
         Args:
-            starting_color (Optional[StoneColor], optional): colour of starting player (or none for random). Defaults to None.
+            starting_color (Optional[StoneColor], optional): color of starting player (or none for random). Defaults to None.
         """
         self.stones: List[Stone] = []
-        self.next_stone_colour = starting_color or np.random.choice([StoneColor.RED, StoneColor.YELLOW])
+        self.next_stone_color = starting_color or np.random.choice([StoneColor.RED, StoneColor.YELLOW])
 
     def step(self, simulation_constants: SimulationConstants = SimulationConstants()) -> SimulationState:
         """step the simulation one timestep (simulation_constants.dt)
@@ -136,9 +136,9 @@ class Curling:
             constants (SimulationConstants, optional): specify a set of constants to use for the simulation. Defaults to SimulationConstants().
             display (bool, optional): whether to display the throw. Defaults to False.
         """
-        assert stone_throw.color == self.next_stone_colour, f"It is {self.next_stone_colour.name}'s turn, not {stone_throw.color.name}'s turn"
-        # change the next stone colour
-        self.next_stone_colour = ~self.next_stone_colour
+        assert stone_throw.color == self.next_stone_color, f"It is {self.next_stone_color.name}'s turn, not {stone_throw.color.name}'s turn"
+        # change the next stone color
+        self.next_stone_color = ~self.next_stone_color
         # add a new moving stone to the game
         self.stones.append(
             self.create_stone(
@@ -201,8 +201,8 @@ class Canvas:
 
     def draw_target(self, radii: List[float], offset: float):
         """draw the target on the canvas"""
-        TARGET_COLOURS = (Colors.RED, Colors.WHITE, Colors.BLUE, Colors.WHITE)
-        for color, radius in zip(TARGET_COLOURS, reversed(sorted((radii)))):
+        TARGET_colorS = (Colors.RED, Colors.WHITE, Colors.BLUE, Colors.WHITE)
+        for color, radius in zip(TARGET_colorS, reversed(sorted((radii)))):
             cv2.circle(self._canvas, center=self.adjust_coordinates((0, offset)), radius=self.convert_radius(radius), color=color.value, thickness=-1)
 
     def draw_horizontal_lines(self, lines: List[float]):
@@ -222,7 +222,7 @@ class Canvas:
     def draw_stone(self, stone: Stone):
         """draw a stone on the canvas"""
         stone_color = Colors.RED if stone.color == StoneColor.RED else Colors.YELLOW
-        # band of colour
+        # band of color
         cv2.circle(self._canvas, center=self.adjust_coordinates(stone.position), radius=self.convert_radius(stone.outer_radius), color=stone_color.value, thickness=-1)
         # grey centre
         cv2.circle(self._canvas, center=self.adjust_coordinates(stone.position), radius=self.convert_radius(stone.outer_radius), color=Colors.GRAY.value, thickness=1)
