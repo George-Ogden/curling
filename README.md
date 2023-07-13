@@ -6,7 +6,7 @@ Used in [https://github.com/George-Ogden/betacurl](https://github.com/George-Ogd
 ## Install
 With pip
 ```sh
-pip install curling
+pip install git+https://github.com/George-Ogden/curling.git
 ```
 from source
 ```sh
