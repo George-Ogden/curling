@@ -1,8 +1,8 @@
 # Curling
 Simulated curling environment  
-![Rendered Curling Environment](images/environment.png)
+![Rendered Curling Environment](images/environment.png)  
 Physics based on [Dynamics and curl ratio of a curling stone](https://rdcu.be/dgIW2)  
-Used in https://github.com/George-Ogden/betacurl
+Used in [https://github.com/George-Ogden/betacurl](https://github.com/George-Ogden/betacurl)
 ## Install
 With pip
 ```sh

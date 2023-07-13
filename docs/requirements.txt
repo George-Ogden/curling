@@ -1,3 +1,6 @@
-sphinx==5.3.0
-sphinx_rtd_theme==1.1.1
-readthedocs-sphinx-search==0.1.1
+mkdocs==1.2.3
+mkdocs-git-revision-date-plugin
+mkdocs-include-markdown-plugin
+mkdocs-material
+mkdocs-mermaid2-plugin==0.6.0
+mkdocstrings==0.18.0

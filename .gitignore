@@ -27,6 +27,21 @@ share/python-wheels/
 *.egg
 MANIFEST
 
+# Generated Docs
+site/
+*.css
+*.gz
+*.html
+*.inv
+*.js
+*.json
+*.min
+*.xml
+favicon.*
+# copied dynamically
+docs/index.md
+docs/images/
+
 # Editor settings
 .vscode/
 

@@ -2,7 +2,7 @@ from setuptools import setup, Extension
 from Cython.Build import cythonize
 
 extensions = [
-    Extension("curling.stone", ["curling/stone.pyx"])
+    Extension("curling.stone", ["src/stone.pyx"])
 ]
 
 setup(
@@ -14,5 +14,7 @@ setup(
             "pytest-timeout>=1.5",
         ],
     },
-    packages=["curling"]
+    packages={
+        "src": "curling",
+    }
 )
