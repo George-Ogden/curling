@@ -14,7 +14,7 @@ setup(
             "pytest-timeout>=1.5",
         ],
     },
-    packages={
-        "src": "curling",
+    package_dir={
+        "curling": "src",
     }
 )
