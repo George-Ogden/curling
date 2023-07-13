@@ -42,4 +42,5 @@ for i in range(curling.num_stones_per_end):
 
 print(curling.evaluate_position()) # positive for YELLOW and negative for RED
 ```
-For more information, see ...
+## Documentation
+For more information, see the documentation at [https://curling.readthedocs.io/](https://curling.readthedocs.io/)
