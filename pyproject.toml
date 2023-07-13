@@ -4,9 +4,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "curling"
-version = "0.2.2"
+version = "0.3.0"
 authors = [
-    {name = "George Ogden", email = "george@goprogram.ai"},
+    {name = "George Ogden", email = "george@goprogram.co.uk"},
 ]
 description = "Interface for curling physics simulation"
 dependencies = ["numpy", "opencv-python"]

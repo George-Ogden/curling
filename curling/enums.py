@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from enum import Enum, IntEnum
 
 class StoneColor(IntEnum):
+    """stone color Enum with values -1 and 1"""
     RED: int = -1
     YELLOW: int = 1
     def __invert__(self) -> StoneColor:
@@ -13,6 +14,7 @@ class StoneColor(IntEnum):
             return StoneColor.RED
 
 class SimulationState(Enum):
+    """simulation state Enum"""
     FINISHED: bool = True
     UNFINISHED: bool = False
 
@@ -27,6 +29,7 @@ class Colors(Enum):
 
 @dataclass
 class LinearTransform:
+    """utility class for linear transformations"""
     m: float = 1 # gradient
     c: float = 0 # intercept
     def __call__(self, value: float) -> float:
@@ -40,6 +43,7 @@ class DisplayTime(Enum):
     FOREVER: LinearTransform = LinearTransform(0, 0)
 
 class Accuracy(IntEnum):
+    """accuracy Enum"""
     LOW: int = 0
     MID: int = 1
     HIGH: int = 2

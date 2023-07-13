@@ -13,19 +13,25 @@ class SimulationConstants:
     eps: np.floating = field(default_factory=lambda: np.array(1e-6))
     accuracy: Accuracy = Accuracy.LOW
     def __post_init__(self):
+        # convert to numpy array
         self.time_intervals = np.array(self.time_intervals)
 
     @property
     def dtheta(self) -> np.floating:
+        """angle between points on circle"""
         return 2 * np.pi / self.num_points_on_circle
 
     @property
     def dt(self) -> np.floating:
+        """time interval for simulation"""
         if self.time_intervals.ndim == 0:
+            # if time_intervals is a scalar, use that value
             return self.time_intervals
+        # otherwise, use the value corresponding to the current accuracy
         return self.time_intervals[min(self.accuracy, len(self.time_intervals) - 1)]
 
     def reset(self):
+        """resets accuracy to low"""
         self.accuracy = Accuracy.LOW
 
 @dataclass
