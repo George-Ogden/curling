@@ -10,7 +10,7 @@ build:
   tools:
     python: "3.11"
   jobs:
-    pre-build:
+    pre_build:
       - cp README.md docs/index.md
       - cp images/ docs/ -r
 
